@@ -36,7 +36,6 @@ exports.rateUser = async (req, res) => {
     } else {
       user.upvotes += 1;
     }
-    console.log(user);
 
     user.rating = (user.upvotes / (user.upvotes + user.downvotes || 1)) * 100;
 
@@ -59,7 +58,6 @@ exports.rateUser = async (req, res) => {
       message: `${user.name} was rated successfully`,
     });
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .json({ error: "Server has occured some problem, please try again" });

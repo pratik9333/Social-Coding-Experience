@@ -24,7 +24,6 @@ exports.fetchCodeChef = async (user) => {
     });
 
     const url = `${codeChefURL}/users/${user.social.codechefProfile.username}`;
-    console.log(url);
 
     const page = await browser.newPage();
 
