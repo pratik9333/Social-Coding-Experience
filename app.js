@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
+const removeExpiredRatedUsers = require("./utils/removeRatedUsers");
 
 //regular middleware
 app.use(express.json());
@@ -32,25 +33,8 @@ const friend = require("./api/friend.api");
 const vote = require("./api/vote.api");
 const auth = require("./api/auth.api");
 
-const Votes = require("./models/Votes.model");
-
 // scheduler to remove expired rated users
-app.put("/api/task", async (req, res) => {
-  try {
-    const appkey = req.header("Authorization").split(" ")[1];
-
-    if (appkey !== process.env.APP_KEY) {
-      return res.status(400).send(`Unauthenticated`);
-    }
-
-    // expiryTime: { $lt: new Date().getTime() },
-    await Votes.deleteMany({ expiryTime: { $lt: new Date().getTime() } });
-
-    res.status(200).send("Success");
-  } catch (error) {
-    res.status(500).send(`${error.message}`);
-  }
-});
+app.put("/api/task", removeExpiredRatedUsers);
 
 //router middleware
 app.use("/api/v1/user", user);
