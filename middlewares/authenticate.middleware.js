@@ -17,9 +17,6 @@ const isLoggedIn = async (req, res, next) => {
 
     req.user = await User.findById(decoded.id);
 
-    req.user.password = undefined;
-    req.user.__v = undefined;
-    req.user.createdAt = undefined;
     next();
   } catch (error) {
     return res.status(500).json({ error: "Invalid token or token expired" });

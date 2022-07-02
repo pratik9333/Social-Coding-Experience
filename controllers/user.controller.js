@@ -89,10 +89,6 @@ exports.updateUserDetails = async (req, res) => {
       new: true,
     });
 
-    updatedUser.password = undefined;
-    updatedUser.createdAt = undefined;
-    updatedUser.__v = undefined;
-
     res
       .status(200)
       .json({ success: true, message: "User profile is updated", updatedUser });
@@ -116,8 +112,6 @@ exports.getUsers = async (req, res) => {
 
     let Users = await userObj.base;
     let filteredUsers = Users.length;
-
-    //update users set status = expired where currentdate - ratedAt <= 10
 
     await res.status(200).json({
       success: true,
@@ -154,7 +148,6 @@ exports.getLeaderBoardData = async (req, res) => {
       usersCount,
     });
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       success: false,
       data: error.message,
